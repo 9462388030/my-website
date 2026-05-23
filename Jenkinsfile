@@ -1,22 +1,33 @@
 pipeline {
     agent any
 
+    environment {
+        PATH = "C:\\Program Files\\nodejs\\;${env.PATH}"
+    }
+
     stages {
-        stage('Install') {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Install dependencies') {
             steps {
                 bat 'npm install'
             }
         }
 
-        stage('Test') {
+        stage('Test Node') {
             steps {
-                bat 'npm test'
+                bat 'node -v'
+                bat 'npm -v'
             }
         }
 
         stage('Run') {
             steps {
-                bat 'node app.js'
+                bat 'npm start'
             }
         }
     }
